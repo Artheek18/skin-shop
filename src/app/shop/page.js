@@ -1,15 +1,28 @@
-export default function Home() {
+"use client"; // Don't forget if you're in Next.js 13+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation"; // 👈 Import useRouter
 
-   const user = {
-    name: "Artheeck Shan",
-  };
+export default function Shop() {
+  const [username, setUsername] = useState("");
+  const router = useRouter();
+
+  useEffect(() => {
+    const storedUsername = localStorage.getItem("username"); // 🔥 Read username
+    if (storedUsername) {
+      setUsername(storedUsername);
+    }
+    else{
+      router.push("/login");
+    }
+  }, []);
+
   const skins = [
     {
       id: 1,
       name: "PROJECT: Yasuo",
       champion: "Yasuo",
       price: "0.00025 BTC",
-      image: "images/project_yasuo.png", // add your own image to public folder
+      image: "images/project_yasuo.png",
     },
     {
       id: 2,
@@ -30,9 +43,13 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-900 text-white p-8">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-4xl font-bold">🛒 League Skins for BTC</h1>
-        <h1 className="text-3xl font-bold">{user.name}</h1>
-      </div>
+      <h1 className="text-4xl font-bold">🛒 League Skins for BTC</h1>
+        {username && (
+          <h2 className="text-2xl font-semibold text-yellow-400">
+            Welcome back, {username}! 👋
+          </h2>
+        )}
+    </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {skins.map((skin) => (
