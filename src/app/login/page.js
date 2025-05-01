@@ -1,10 +1,10 @@
-"use client"; // 👈 Make sure you add this at the top if you're using Next.js 13+
+"use client";
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Login() {
-  const router = useRouter(); // 👈 get access to router
+  const router = useRouter();
   const [username, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

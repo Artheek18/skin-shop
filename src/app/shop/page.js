@@ -1,20 +1,26 @@
 "use client"; // Don't forget if you're in Next.js 13+
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation"; // 👈 Import useRouter
+import { useRouter } from "next/navigation"; 
 
 export default function Shop() {
   const [username, setUsername] = useState("");
   const router = useRouter();
 
   useEffect(() => {
-    const storedUsername = localStorage.getItem("username"); // 🔥 Read username
+    const storedUsername = localStorage.getItem("username"); 
     if (storedUsername) {
       setUsername(storedUsername);
     }
     else{
       router.push("/login");
     }
-  }, []);
+  }, [router]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("username"); 
+    router.push("/login"); 
+  };
+
 
   const skins = [
     {
@@ -43,13 +49,20 @@ export default function Shop() {
   return (
     <div className="min-h-screen bg-gray-900 text-white p-8">
       <div className="flex justify-between items-center mb-6">
-      <h1 className="text-4xl font-bold">🛒 League Skins for BTC</h1>
-        {username && (
-          <h2 className="text-2xl font-semibold text-yellow-400">
-            Welcome back, {username}! 👋
-          </h2>
-        )}
-    </div>
+        <h1 className="text-4xl font-bold">🛒 League Skins for BTC</h1>
+
+        <div className="flex items-center space-x-4">
+          {username && (
+            <h2 className="text-2xl font-semibold">Welcome {username}</h2>
+          )}
+          <button
+            onClick={handleLogout}
+            className="bg-red-500 hover:bg-red-400 text-white font-semibold py-2 px-4 rounded-lg"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {skins.map((skin) => (
